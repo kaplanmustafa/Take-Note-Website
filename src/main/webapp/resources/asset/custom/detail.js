@@ -35,7 +35,6 @@ function updateNote()
 		url:"./../updateNote",
 		data:ser_data,
 		success: function(data) {
-			alert(data);
 			getNote();
 		},error: function(data) {
 			alert(data);

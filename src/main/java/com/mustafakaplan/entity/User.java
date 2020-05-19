@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="kullanicilar")
@@ -18,19 +19,30 @@ public class User
 	private Long id;
 	
 	@Column(nullable = false)
+	private String username;
 	private String name;
 	private String surname;
 	private String email;
-	private String pass;
+	private String password;
 	private boolean active = false;
 	private Date create_date = new Date();
-	private String key;
+	private String keyreg;
+	
+	//Veritabanýna eklenmeyecek, sadece þifre tekrarý kontrolü için gerekli
+	@Transient
+	private String pass2;
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getName() {
 		return name;
@@ -50,11 +62,24 @@ public class User
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPass() {
-		return pass;
+	
+	public String getPassword() {
+		return password;
 	}
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getKeyreg() {
+		return keyreg;
+	}
+	public void setKeyreg(String keyreg) {
+		this.keyreg = keyreg;
+	}
+	public String getPass2() {
+		return pass2;
+	}
+	public void setPass2(String pass2) {
+		this.pass2 = pass2;
 	}
 	public boolean isActive() {
 		return active;
@@ -68,12 +93,6 @@ public class User
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
-	
+
 	
 }
