@@ -19,7 +19,7 @@ function addUser()
 		success: function(data) {
 			if(data == '1')
 			{
-				alert("Parolalar Eşleşmiyor!")
+				alert("Parolalar Eşleşmiyor!");
 			}
 			else if(data == 'ERROR')
 			{
@@ -28,6 +28,7 @@ function addUser()
 			else if(data == 'OK')
 			{
 				alert("Kayıt Başarılı");
+				$(location).attr('href','login');
 			}
 			
 		},error: function(data) {

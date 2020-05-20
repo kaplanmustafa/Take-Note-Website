@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mustafakaplan.entity.Note;
+import com.mustafakaplan.security.LoginFilter;
 import com.mustafakaplan.service.MailService;
 import com.mustafakaplan.service.NoteService;
 
@@ -26,9 +27,6 @@ public class HomeController
 	
 	@Autowired
 	private NoteService noteService;
-	
-	@Autowired
-	private MailService mailService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home(Model model)
@@ -42,15 +40,11 @@ public class HomeController
 		return "redirect:/index";
 	}
 	
-	@RequestMapping(value = "index/", method = RequestMethod.GET)
-	public String index2(Model model) 
-	{
-		return "redirect:/index";
-	}
-	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model) 
+	public String index(Model model, HttpServletRequest request) 
 	{
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+		
 		model.addAttribute("baslik", "Not Alma");
 		model.addAttribute("serverTime","/"  ); 
 		
@@ -59,8 +53,8 @@ public class HomeController
 	
 	
 	@RequestMapping(value = "/detay/{id}", method = RequestMethod.GET)
-	public String mustafa(@PathVariable("id") Long id,Model model) {
-		
+	public String mustafa(@PathVariable("id") Long id,Model model) 
+	{
 		model.addAttribute("id",id);
 		
 		return "detail";
@@ -112,14 +106,19 @@ public class HomeController
 	@RequestMapping(value = "/getNotes", method = RequestMethod.POST)
 	public ResponseEntity<ArrayList<Note>> getNotes(HttpServletRequest request)
 	{
-
-		return new ResponseEntity<>(noteService.getAll((long) 1), HttpStatus.CREATED);
+		return new ResponseEntity<>(noteService.getAll(LoginFilter.user.getId()), HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/getNote", method = RequestMethod.POST)
 	public ResponseEntity<Note> getNote(@RequestBody String id, HttpServletRequest request)
 	{
-
-		return new ResponseEntity<>(noteService.getFindByNoteId(Long.parseLong(id)), HttpStatus.CREATED);
+		Note note = noteService.getFindByNoteId(Long.parseLong(id));
+		
+		if(note.getUser_id().equals(LoginFilter.user.getId()))
+		{
+			return new ResponseEntity<>(noteService.getFindByNoteId(Long.parseLong(id)), HttpStatus.CREATED);
+		}
+		
+		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
 }

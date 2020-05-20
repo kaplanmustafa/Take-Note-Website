@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mustafakaplan.dao.NoteDAO;
 import com.mustafakaplan.entity.Note;
+import com.mustafakaplan.security.LoginFilter;
 
 @Service
 @Transactional
@@ -21,7 +22,7 @@ public class NoteService
 	
 	public Long createNote(Note note, HttpServletRequest request)
 	{
-		note.setUser_id((long) 1);
+		note.setUser_id(LoginFilter.user.getId());
 		return noteDao.insert(note);
 	}
 	

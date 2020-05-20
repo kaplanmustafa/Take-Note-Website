@@ -20,7 +20,7 @@ function loginBtn()
 			}
 			else if(data == 'OK')
 			{
-				$(location).attr('href','index')
+				$(location).attr('href','index');
 			}
 			
 		},error: function(data) {

@@ -48,6 +48,14 @@ public class LoginController
 		return "register";
 	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(Model model, HttpServletRequest request) 
+	{
+		request.getSession().setAttribute("user", null);
+		
+		return "redirect:/login";
+	}
+	
 	@RequestMapping(value = "/reg/{key}", method = RequestMethod.GET)
 	public String regOk(@PathVariable("key") String key, Model model) 
 	{
@@ -66,6 +74,8 @@ public class LoginController
 		
 		if(user2 != null)
 		{
+			request.getSession().setAttribute("user", user2);
+			
 			return new ResponseEntity<>("OK", HttpStatus.OK);
 		}
 		
