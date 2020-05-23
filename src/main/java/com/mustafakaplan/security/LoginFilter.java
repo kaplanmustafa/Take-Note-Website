@@ -35,7 +35,8 @@ public class LoginFilter implements Filter
 		
 		// Tekrar yönlendirme
 		if(req.getRequestURI().contains("login") || req.getRequestURI().contains("register") || req.getRequestURI().contains("addUser")
-				|| req.getRequestURI().contains("logout") || req.getRequestURI().contains("reg") || req.getRequestURI().contains("controlUser")) 
+				|| req.getRequestURI().contains("logout") || req.getRequestURI().contains("reg") || req.getRequestURI().contains("controlUser")
+				|| req.getRequestURI().contains("rest")) 
 		{
 			chain.doFilter(request, response);
 			return;
@@ -51,6 +52,8 @@ public class LoginFilter implements Filter
 		}
 		else // Giriþ yapýlmamýþsa
 		{
+			System.out.println("FILTER");
+			
 			res.sendRedirect(HomeController.url + "/login"); // Giriþ sayfasýna yönlendir
 		}
 		

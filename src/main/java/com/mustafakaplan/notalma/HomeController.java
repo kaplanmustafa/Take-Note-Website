@@ -28,7 +28,7 @@ public class HomeController
 	@Autowired
 	private NoteService noteService;
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	/*@RequestMapping(value = "", method = RequestMethod.GET)
 	public String home(Model model)
 	{
 		return "redirect:/index";
@@ -37,12 +37,15 @@ public class HomeController
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home2(Model model) 
 	{
+		
+		
 		return "redirect:/index";
-	}
+	}*/
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model, HttpServletRequest request) 
 	{
+		System.out.println("HOME CONTROL");
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 		
 		model.addAttribute("baslik", "Not Alma");

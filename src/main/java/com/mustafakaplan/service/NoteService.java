@@ -10,13 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mustafakaplan.dao.NoteDAO;
+import com.mustafakaplan.dto.UserLoginDTO;
 import com.mustafakaplan.entity.Note;
+import com.mustafakaplan.entity.User;
 import com.mustafakaplan.security.LoginFilter;
 
 @Service
 @Transactional
 public class NoteService 
 {
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private NoteDAO noteDao;
 	
@@ -52,5 +57,16 @@ public class NoteService
 	public Note getFindByNoteId(Long noteId)
 	{
 		return noteDao.getFindByNoteId(noteId);
+	}
+	
+	public ArrayList<Note> getAll(UserLoginDTO login)
+	{
+		User user2 = new User();
+		user2.setUsername(login.getUsername());
+		user2.setPassword(login.getPassword());
+		
+		User user = userService.getFindByUsernameAndPass(user2);
+		
+		return noteDao.getAll(user.getId());
 	}
 }
